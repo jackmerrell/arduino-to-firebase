@@ -5,7 +5,7 @@ var connected = false;
 
 // Initialise Firebase
 var admin = require('firebase-admin');
-var serviceAccount = require('./fir-graph-firebase-adminsdk-oh7fx-32a628ff09.json');
+var serviceAccount = require('./admin/fir-graph-firebase-adminsdk-oh7fx-32a628ff09.json');
 
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccount),
@@ -13,7 +13,6 @@ admin.initializeApp({
 });
 var db = admin.database();
 var ref = db.ref();
-
 
 board.on('ready', function() {
   connected = true;
@@ -30,7 +29,7 @@ tempSensor.on('change', function() {
   var myTemp = tempSensor.celsius;
   var myTempRounded = Math.round( myTemp * 10 ) / 10;
 
-  ref.once('value', function(snapshot) {
+  ref.on('value', function(snapshot) {
     console.log(myTempRounded);
 
     ref.update({
@@ -40,11 +39,11 @@ tempSensor.on('change', function() {
    });
   });
 
-}); //end tempSensor 'change' function
+});
 
 });
 
-//   // make some updating data
+//   // write some updating data
 //   function startTime() {
 //   var today = new Date();
 //   var s = today.getSeconds();
