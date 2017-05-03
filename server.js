@@ -29,7 +29,7 @@ tempSensor.on('change', function() {
   var myTemp = tempSensor.celsius;
   var myTempRounded = Math.round( myTemp * 10 ) / 10;
 
-  ref.on('value', function(snapshot) {
+  ref.once('value', function(snapshot) {
     console.log(myTempRounded);
 
     ref.update({
