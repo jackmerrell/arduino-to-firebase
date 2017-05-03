@@ -11,8 +11,18 @@ admin.initializeApp({
   credential: admin.credential.cert(serviceAccount),
   databaseURL: 'https://fir-graph.firebaseio.com'
 });
+
 var db = admin.database();
 var ref = db.ref();
+
+ref.set({
+  LiveTemperature: {
+  
+  },
+  recordedTemperature:{
+
+  }
+})
 
 board.on('ready', function() {
   connected = true;
@@ -30,13 +40,18 @@ tempSensor.on('change', function() {
   var myTempRounded = Math.round( myTemp * 10 ) / 10;
 
   ref.once('value', function(snapshot) {
-    console.log(myTempRounded);
+    // console.log(myTempRounded);
 
     ref.update({
-       room: {
+       LiveTemperature: {
           temperature: myTempRounded
        }
    });
+
+   db.ref('/recordedTemperature').push({
+      temperature: myTempRounded
+   });
+
   });
 
 });
