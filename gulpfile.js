@@ -105,8 +105,34 @@ gulp.task('arduinoToFirebase', function () {
 
 gulp.task('clean', del.bind(null, ['.tmp', 'dist']));
 
-gulp.task('serve', () => {
+gulp.task('arduinoToFirebase', () => {
   runSequence(['clean', 'wiredep'], ['styles', 'scripts', 'fonts','arduinoToFirebase'], () => {
+    browserSync.init({
+      notify: false,
+      port: 9000,
+      server: {
+        baseDir: ['.tmp', 'app'],
+        routes: {
+          '/bower_components': 'bower_components'
+        }
+      }
+    });
+
+    gulp.watch([
+      'app/*.html',
+      'app/images/**/*',
+      '.tmp/fonts/**/*'
+    ]).on('change', reload);
+
+    gulp.watch('app/styles/**/*.scss', ['styles']);
+    gulp.watch('app/scripts/**/*.js', ['scripts']);
+    gulp.watch('app/fonts/**/*', ['fonts']);
+    gulp.watch('bower.json', ['wiredep', 'fonts']);
+  });
+});
+
+gulp.task('serve', () => {
+  runSequence(['clean', 'wiredep'], ['styles', 'scripts', 'fonts'], () => {
     browserSync.init({
       notify: false,
       port: 9000,

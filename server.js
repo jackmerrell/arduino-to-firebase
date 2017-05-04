@@ -14,10 +14,11 @@ admin.initializeApp({
 
 var db = admin.database();
 var ref = db.ref();
+var timeStamp = admin.database.ServerValue.TIMESTAMP;
 
 ref.set({
   LiveTemperature: {
-  
+
   },
   recordedTemperature:{
 
@@ -41,19 +42,18 @@ tempSensor.on('change', function() {
 
   ref.once('value', function(snapshot) {
     // console.log(myTempRounded);
+    var timeStamp = admin.database.ServerValue.TIMESTAMP;
 
     ref.update({
        LiveTemperature: {
           temperature: myTempRounded
        }
    });
-
-   db.ref('/recordedTemperature').push({
-      temperature: myTempRounded
+   db.ref().child('/recordedTemperature').push({
+      temperature: myTempRounded,
+      recordedAt: timeStamp
    });
-
   });
-
 });
 
 });
