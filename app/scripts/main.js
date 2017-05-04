@@ -29,7 +29,6 @@ $(function(){
       timeArray.push(option.recordedAt);
     });
 
-
     var chart = c3.generate({
       bindto: '#chart',
       size: {height: 800},
