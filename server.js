@@ -57,15 +57,3 @@ tempSensor.on('change', function() {
 });
 
 });
-
-//   // write some updating data
-//   function startTime() {
-//   var today = new Date();
-//   var s = today.getSeconds();
-//   var t = setTimeout(startTime, 1000);
-//
-//   ref.update({
-//      timeData: {
-//         seconds: s
-//      }
-//  });
